@@ -1,33 +1,17 @@
-import Layout from './Layout';
+import {createContext, useState, useEffect} from 'react';
 
-//various react components
-import Home from './Home';
-import NewPost from './NewPost';
-import PostPage from './PostPage';
-import About from './About';
-import Missing from './Missing';
-import EditPost from './EditPost';
+//custom hooks
+import useAxiosFetch from '../hooks/useAxiosFetch';
 
+const DataContext = createContext({});
 
-import { Routes, Route } from 'react-router-dom';
-import useAxiosFetch from './hooks/useAxiosFetch';
-import {useEffect} from 'react';
-import {useStoreActions} from 'easy-peasy';
-//context api
-//import {DataProvider} from './context/DataContext' ///we are now using easy peasy instead of ContextApi to provide data
-
-function App() {
-  /*
-  const [posts, setPosts] = useState([])
+export const DataProvider = ({children}) => {
+  const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState('')
   const [searchResults, setSearchResults] = useState([]);
-  const [postTitle, setPostTitle] = useState('');
-  const [postBody, setPostBody] = useState('');
-  const [editTitle, setEditTitle] = useState('');
-  const [editBody, setEditBody] = useState('');
-  const navigate = useNavigate();
+ 
   
-  const {width} = useWindowSize();//custom hooks
+   //custom hooks
   const {data, fetchError, isLoading} = useAxiosFetch('http://localhost:3500/posts');
 
   useEffect(()=>{
@@ -60,7 +44,7 @@ function App() {
     }
     fetchPosts(); //calling the fetchPosts function
   },[]);  */
-/*
+
   useEffect(()=>{
       const filteredResults = posts.filter(post=>(
         (post.body).toLowerCase()).includes(search.toLowerCase())
@@ -69,6 +53,9 @@ function App() {
       setSearchResults(filteredResults.reverse());
      
 },[posts,search]);
+
+
+ /*
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
@@ -87,7 +74,8 @@ function App() {
       {
         console.log(err.message);
       }
-  }
+  }*/
+ /*
   const handleEdit = async (id) => {
     const datetime = format(new Date(), 'MMMM dd, yyyy pp');
     const updatedPost = {id, datetime, title:editTitle, body: editBody}
@@ -107,45 +95,20 @@ function App() {
     }
   }
 
-  const handleDelete = async (id) => {
-    
 
-    try{
-    await api.delete(`/posts/${id}`);
-    const postsList = posts.filter(post => post.id !== id);
-    setPosts(postsList)
-    navigate('/')
-    }
-    catch(err)
-    {
-      console.log(err.message);
-    }
-  } */
- const setPosts = useStoreActions((actions) => actions.setPosts);
-  const {data, fetchError, isLoading} = useAxiosFetch('http://localhost:3500/posts');
-  useEffect(()=>{setPosts(data)},[data, setPosts]);
-
-
-
+*/
 
   return (
-    
-      <Routes>
-         <Route  path="/" element={<Layout/>} >
+    <DataContext.Provider value={{
+     search,setSearch,
+      searchResults,fetchError,isLoading,
 
-              <Route index element={<Home  isLoading={isLoading} fetchError={fetchError}/>} />
-                  <Route path="post">
-                  <Route index element={<NewPost />}/>
-                  <Route path=":id" element={<PostPage />} />
-           </Route>
-              <Route path="edit/:id" element={<EditPost/>}/>
-              <Route path="about" element={<About />} />
-              <Route path="*" element={<Missing />} />
-              </Route>
-      </Routes>
- 
-     
-  );
-}
+        posts, setPosts,
+        
+    }}>
+        {children}
+        </DataContext.Provider>
+  )
+} 
 
-export default App;
+export default DataContext;
