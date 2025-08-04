@@ -12,7 +12,7 @@ export const DataProvider = ({children}) => {
  
   
    //custom hooks
-  const {data, fetchError, isLoading} = useAxiosFetch('http://localhost:3500/posts');
+  const {data, fetchError, isLoading} = useAxiosFetch('https://simple-blog-app-2oxx.onrender.com/posts');
 
   useEffect(()=>{
     setPosts(data);
