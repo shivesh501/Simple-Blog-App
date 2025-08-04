@@ -122,7 +122,7 @@ function App() {
     }
   } */
  const setPosts = useStoreActions((actions) => actions.setPosts);
-  const {data, fetchError, isLoading} = useAxiosFetch('http://localhost:3500/posts');
+  const {data, fetchError, isLoading} = useAxiosFetch('https://simple-blog-app-2oxx.onrender.com/posts');
   useEffect(()=>{setPosts(data)},[data, setPosts]);
 
 
