@@ -1,6 +1,6 @@
 
 import {useParams, Link} from "react-router-dom";
-import { useContext } from 'react';
+//import { useContext } from 'react';
 // import api from './API/posts'
 import {useNavigate} from 'react-router-dom'
 // import  DataContext from './context/DataContext'; // no longer needed since we are now using easy-peasy
